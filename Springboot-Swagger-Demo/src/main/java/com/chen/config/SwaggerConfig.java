@@ -1,6 +1,4 @@
 package com.chen.config;
-import static com.google.common.base.Predicates.or;
-import static springfox.documentation.builders.PathSelectors.regex;
 
 import com.google.common.base.Predicate;
 import io.swagger.models.Contact;
@@ -10,54 +8,39 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
-
 import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import static com.google.common.base.Predicates.or;
+import static springfox.documentation.builders.PathSelectors.regex;
+
 /**
- * Created by 陈梓平 on 2017/9/14.
+ * Swagger配置
+ * @author 陈梓平
+ * @date 2017/10/24.
  */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    /**
-     * 可以定义多个组，比如本类中定义把test和demo区分开了
-     * （访问页面就可以看到效果了）
-     *
-     */
+
     @Bean
-    public Docket testApi() {
+    public Docket demoApi(){
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("test")
-                .genericModelSubstitutes(DeferredResult.class)
-//                .genericModelSubstitutes(ResponseEntity.class)
-                .useDefaultResponseMessages(false)
-                .forCodeGeneration(true)
+                .groupName("demo")//组名
+                .genericModelSubstitutes(DeferredResult.class)//通用的模板替代
+                .useDefaultResponseMessages(false)//是否使用默认响应信息
+                .forCodeGeneration(true)//通用编码
                 .pathMapping("/")// base，最终调用接口后会和paths拼接在一起
                 .select()
                 .paths(or(regex("/api/.*")))//过滤的接口
                 .build()
                 .apiInfo(apiInfo());
-    }
 
-    @Bean
-    public Docket demoApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("demo")
-                .genericModelSubstitutes(DeferredResult.class)
-//              .genericModelSubstitutes(ResponseEntity.class)
-                .useDefaultResponseMessages(false)
-                .forCodeGeneration(false)
-                .pathMapping("/")
-                .select()
-                .paths(or(regex("/demo/.*")))//过滤的接口
-                .build()
-                .apiInfo(apiInfo());
     }
-
 
     private ApiInfo apiInfo() {
         Contact contact = new  Contact();
@@ -95,13 +78,6 @@ public class SwaggerConfig {
                 .useDefaultResponseMessages(false)
                 .select()
                 .apis(predicate)
-                .build();
-    }
-
-    private ApiInfo rApiInfo() {
-        return new ApiInfoBuilder()
-                .title("包含媒体、咨询、搜索引擎关键字、广告等类型接口的服务")//大标题
-                .version("1.0")//版本
                 .build();
     }
 }
