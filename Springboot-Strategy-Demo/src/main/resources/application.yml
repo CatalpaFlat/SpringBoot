@@ -1,0 +1,35 @@
+spring:
+#主从服务器配置
+  profiles:
+    active: dev
+
+#数据库链接配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.104/hrjtgw?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    # 配置连接池
+    tomcat:
+      max-wait: 10000
+      max-active: 30
+      test-on-borrow: true
+      #传递MySQL JDBC特有的参数
+      db-properties:
+         logger: net.jackieathome.db.customized.MySQLLogger
+         gatherPerfMetrics: 'true'
+         profileSQL: 'true'
+          #当使用MySQL驱动时，控制参数的值需要强制转换为字符串，否则创建数据库链接时会报错
+         reportMetricsIntervalMillis: '60000'
+         logSlowQueries: 'true'
+         explainSlowQueries: 'true'
+
+#日志
+logging:
+    level:
+        # 关闭其它软件的日志，减少干扰
+        org: ERROR
+        net: ERROR
+        com: ERROR
+        # 开启MySQL JDBC驱动的日志
+        MySQL: DEBUG

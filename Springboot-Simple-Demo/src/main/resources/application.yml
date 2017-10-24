@@ -1,0 +1,43 @@
+context:
+  listener:
+    classes: com.chen.listener.CustomApplicationListener
+testCondition2: is not null
+
+pojotopro:
+  name: hello
+  pass: 123456
+  id: 258
+
+
+# µ ±º‡øÿ
+endpoints:
+ actuator:
+  enabled: true
+  sensitive: false
+ beans:
+  sensitive: false
+  enabled: true
+ health:
+  sensitive: false
+  enabled: true
+management:
+  security:
+    enabled: false
+
+#security≈‰÷√
+security:
+  user:
+    name: admin
+    password: 123456
+
+
+
+#jetty≈‰÷√
+#server:
+#  connection-timeout: 5000
+#  ssl:
+#    key-store: classpath:.keystore
+#    key-store-type: JKS
+#    key-password: qq123456
+#    key-alias: tomcat
+#  port: 8444

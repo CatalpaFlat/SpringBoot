@@ -1,0 +1,12 @@
+server:
+  port: 1111
+
+spring:
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes:
+      properties:
+        path:
+          logs: ./elasticsearch/log
+          data: ./elasticsearch/data

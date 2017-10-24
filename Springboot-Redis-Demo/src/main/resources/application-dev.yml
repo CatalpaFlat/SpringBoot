@@ -1,0 +1,5 @@
+server:
+  port: 8086
+  context-path: /RedisDemo
+  tomcat:
+    uri-encoding: utf-8
