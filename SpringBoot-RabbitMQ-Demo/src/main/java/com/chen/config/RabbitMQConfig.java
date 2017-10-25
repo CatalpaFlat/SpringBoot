@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 /**
+ * 配置RabbitMQ
  * @author 陈梓平
  * @date 2017/10/25.
  */
 @Configuration
 public class RabbitMQConfig {
-    public static final String FOO_EXCHANGE   = "callback.exchange.foo";
-    public static final String FOO_ROUTINGKEY = "callback.routingkey.foo";
-    public static final String FOO_QUEUE      = "callback.queue.foo";
+    public static final String CHEN_EXCHANGE   = "callback.exchange.CEHN";
+    public static final String CHEN_ROUTINGKEY = "callback.routingkey.CEHN";
 
     @Value("${spring.rabbitmq.addresses}")
     private String addresses;

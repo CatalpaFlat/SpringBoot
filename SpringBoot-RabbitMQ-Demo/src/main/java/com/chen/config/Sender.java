@@ -32,9 +32,9 @@ public class Sender implements RabbitTemplate.ConfirmCallback{
      */
     public void sendMsg(String content) {
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
-        rabbitTemplate.convertAndSend(RabbitMQConfig.FOO_EXCHANGE, RabbitMQConfig.FOO_ROUTINGKEY,
+        rabbitTemplate.convertAndSend(RabbitMQConfig.CHEN_EXCHANGE, RabbitMQConfig.CHEN_ROUTINGKEY,
                 content, correlationId);
-//        rabbitTemplate.convertAndSend("foo",content);
+//        rabbitTemplate.convertAndSend("CEHN",content);
     }
 
     /**

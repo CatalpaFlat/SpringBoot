@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 测试Rabbitmq
  * @author 陈梓平
  * @date 2017/10/25.
  */
