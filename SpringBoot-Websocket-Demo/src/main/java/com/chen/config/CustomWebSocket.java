@@ -17,15 +17,15 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 @ServerEndpoint(value = "/websocket")
 @Component
-public class CumWebSocket {
+public class CustomWebSocket {
     /**静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。*/
     private static int onlineCount = 0;
     /**concurrent包的线程安全Set，用来存放每个客户端对应的CumWebSocket对象。*/
-    private static CopyOnWriteArraySet<CumWebSocket> webSocketSet = new CopyOnWriteArraySet<CumWebSocket>();
+    private static CopyOnWriteArraySet<CustomWebSocket> webSocketSet = new CopyOnWriteArraySet<CustomWebSocket>();
     /**与某个客户端的连接会话，需要通过它来给客户端发送数据*/
     private Session session;
 
-    private static final Logger log = LoggerFactory.getLogger(CumWebSocket.class);
+    private static final Logger log = LoggerFactory.getLogger(CustomWebSocket.class);
     /**
      * 连接建立成功调用的方法
      * @param session
@@ -83,10 +83,10 @@ public class CumWebSocket {
      */
     private static void sendAll(String message) {
         Arrays.asList(webSocketSet.toArray()).forEach(item -> {
-            CumWebSocket cumWebSocket = (CumWebSocket) item;
+            CustomWebSocket customWebSocket = (CustomWebSocket) item;
             //群发
             try {
-                cumWebSocket.sendMessage(message);
+                customWebSocket.sendMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -108,14 +108,14 @@ public class CumWebSocket {
      * 减少在线人数
      */
     private void subOnlineCount() {
-        CumWebSocket.onlineCount--;
+        CustomWebSocket.onlineCount--;
     }
 
     /**
      * 添加在线人数
      */
     private void addOnlineCount() {
-        CumWebSocket.onlineCount++;
+        CustomWebSocket.onlineCount++;
     }
 
     /**
