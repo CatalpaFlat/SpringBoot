@@ -1,0 +1,10 @@
+spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirms: true
+    addresses: localhost:5672
+server:
+  port: 8282
+
