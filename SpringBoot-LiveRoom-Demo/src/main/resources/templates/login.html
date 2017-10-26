@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>登录</title>
+    <script src="js/jquery-1.11.3.js" charset="utf-8"/>
+</head>
+<body>
+<input type="text" placeholder="用户名" id="name"/>
+<input type="password" placeholder="密码" id="password"/>
+<button id="login">登录</button> <a href="regist">注册</a>
+<script type="text/javascript">
+    $("#login").click(function(){
+        var name = $("#name").val();
+        var password = $("#password").val();
+        $.ajax({
+            url: 'acc/login',
+            type: 'POST',
+//            dataType: 'json',
+            data:{name:name,password:password},
+            success: function(data) {
+                console.log("success..."+data);
+                console.log("length:"+data.length);
+                if (data.length != 0){
+                    window.location.href = "list";
+                }
+            },
+            error: function(data) {
+                var json = JSON.stringify(data);
+                console.log("error..."+json);
+            }
+        });
+    });
+</script>
+</body>
+</html>

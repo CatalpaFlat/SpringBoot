@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>直播间</title>
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/sockjs-client/1.1.1/sockjs.min.js"></script>
+    <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.js"></script>
+    <script src="js/jquery-1.11.3.js"/>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/jquery.danmu.min.js"></script>
+    <style>
+        .div_inline{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .left_div_size{
+            width: 600px;
+            height: 600px;
+        }
+        #video{
+            text-align: center;
+        }
+        .right_div_size{
+            width: 200px;
+            height:600px;
+        }
+        .right_div_content{
+            overflow-y:scroll;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="div_inline left_div_size">
+        <div>左侧直播</div>
+       <!-- <img id="video" src="img/1.jpg" width="600px" height="400px"/>-->
+        <div style="position:relative; background-color: black ; height: 439px; width: 100%;">
+            <div id="danmu" style=""></div>
+            <video id="v-player"
+                   class="video-js col-center-block">
+
+                <!--<source src="rtmp://live.hkstv.hk.lxdns.com/live/hks"  type="rtmp/flv"></source>-->
+            </video>
+        </div>
+    </div>
+    <div class="div_inline right_div_size">
+        <div>右侧聊天室</div>
+        <div>观看人数({{number}})</div>
+        <input id="sendValue" type="text" placeholder="发送内容"/><button id="send"  @click="sendMessage"> 发送</button>
+        <div class="right_div_content">聊天内容
+            <div v-for="message in messages">
+                <span style="color: cornflowerblue;">{{message.creator}}:</span>
+                <span>{{message.msgBody}}</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        var chatroom = new Vue({
+            el: '#chatroom',
+            data: {
+                stompClient: null,
+                messages: [],
+                messageinput: null,
+                rtmpSource: null,
+                videoPlayer: null,
+                number: 0,
+                danmu:null,
+                danmuColor:['#666666','blue','white','red','pink']
+            },
+            methods: {
+                connecttosocket: function () {
+                    this.messages.push({
+                        creator: '系统消息',
+                        msgBody: '连接中...'
+                    })
+                    var socket = new SockJS("/live");
+                    this.stompClient = Stomp.over(socket)
+                    this.stompClient.connect({}, function (frame) {
+                        chatroom.messages.push({
+                            creator: '系统消息',
+                            msgBody: '连接成功！'
+                        })
+                        //接收聊天室消息
+                        chatroom.stompClient.subscribe('/topic/online_user', function (data) {
+                            chatroom.number = JSON.parse(data.body).length
+                        });
+                        chatroom.stompClient.subscribe('/topic/group', function (data) {
+                            //console.log(JSON.parse(data.body))
+                            chatroom.messages.push(JSON.parse(data.body))
+                            let time = $('#danmu').data("nowTime") + 3;
+                            let aDanmu = {
+                                text: JSON.parse(data.body).msgBody,
+                                color: chatroom.danmuColor[parseInt(Math.random() * 4, 10)],
+                                size: 1,
+                                position: 0,
+                                "time": time
+                            }
+                            $('#danmu').danmu("addDanmu", aDanmu)
+                        });
+
+
+                    });
+                },
+                sendMessage: function () {
+                    if (chatroom.messageinput != null && chatroom.userid != '') {
+                        this.stompClient.send("/chat", {atytopic: "topic"}, chatroom.messageinput);
+                        this.messageinput = null;
+                    } else if (chatroom.messageinput == null) {
+                        chatroom.messageinput = "请输入内容!!!";
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

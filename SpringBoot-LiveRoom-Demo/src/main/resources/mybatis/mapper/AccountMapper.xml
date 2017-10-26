@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.logic.mapper.AccountMapper">
+    <select id="queryIsUserByNameAndPass" resultType="java.lang.String">
+        SELECT ip FROM user WHERE name = #{name} AND password = #{password}
+    </select>
+
+    <insert id="insertUser" parameterType="com.chen.logic.entity.UserInfo">
+        INSERT INTO user (ip,name,password)
+        VALUES (#{ip},#{name},#{password})
+    </insert>
+</mapper>

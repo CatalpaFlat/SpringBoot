@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>注册</title>
+    <script src="js/jquery-1.11.3.js"/>
+</head>
+<body>
+<input type="text" placeholder="用户名" id="name"/>
+<input type="password" placeholder="输入密码" id="password1"/>
+<input type="password" placeholder="再次输入密码" id="password2"/>
+<button id="regist">注册</button>
+<script type="text/javascript">
+    $("#regist").click(function(){
+        var name = $("#name").val();
+        var password1 = $("#password1").val();
+        var password2 = $("#password2").val();
+        if (password1!=password2)
+            return;
+        $.ajax({
+            url: 'acc/regist',
+            type: 'POST',
+//            dataType: 'json',
+            data:{name:name,password:password1},
+            success: function(data) {
+                console.log("success..."+data);
+                console.log("length:"+data.length);
+                if (data.length != 0){
+                    window.location.href = "login";
+                }
+            },
+            error: function(data) {
+                var json = JSON.stringify(data);
+                console.log("error..."+json);
+            }
+        });
+    });
+</script>
+</body>
+</html>
