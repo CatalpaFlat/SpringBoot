@@ -33,15 +33,17 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         //假如需要第三方消息代理，比如rabitMQ,activeMq，在这里配置
         registry.setApplicationDestinationPrefixes("/demo")
-                .enableStompBrokerRelay("/topic","/queue")//设置stomp协议传递者
+                .enableStompBrokerRelay("/topic","/house")//设置stomp协议传递者
                 .setRelayHost("127.0.0.1")
-                .setRelayPort(5672)
+                .setRelayPort(61613)
                 .setClientLogin("guest")
                 .setClientPasscode("guest")
                 .setSystemLogin("guest")
                 .setSystemPasscode("guest")
                 .setSystemHeartbeatSendInterval(5000)//设置系统发送间隔
                 .setSystemHeartbeatReceiveInterval(4000);//设置系统接收间隔
+
+        registry.setUserDestinationPrefix("/house");
     }
 
     /**

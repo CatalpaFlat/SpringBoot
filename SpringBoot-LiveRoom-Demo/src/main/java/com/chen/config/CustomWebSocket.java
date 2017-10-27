@@ -14,8 +14,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @author 陈梓平
  * @date 2017/10/26.
  */
-@ServerEndpoint(value = "/send")
-@Component
+//@ServerEndpoint(value = "/send")
+//@Component
 public class CustomWebSocket {
     /**静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。*/
     private static int onlineCount = 0;
